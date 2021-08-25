@@ -2,15 +2,20 @@
 
 namespace app\controllers;
 
-use yii\web\Controller;
+use common\controllers\BaseController;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
 	/**
 	 * @path index/index
 	 */
 	public function actionIndex()
 	{
-		echo date('Y-m-d');
+		return ['id' => 123];
+	}
+
+	public function actionRouteRuleTest()
+	{
+		return ['route rule test'];
 	}
 }

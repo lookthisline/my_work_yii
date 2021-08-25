@@ -2,7 +2,9 @@
 
 namespace app\controllers\abc;
 
-class IndexController extends \yii\web\Controller
+use common\controllers\BaseController;
+
+class IndexController extends BaseController
 {
 	/**
 	 * @path abc/index/index
@@ -10,5 +12,10 @@ class IndexController extends \yii\web\Controller
 	public function actionIndex()
 	{
 		echo time();
+	}
+
+	public function actionRouteRuleTest()
+	{
+		return ['route rule test'];
 	}
 }

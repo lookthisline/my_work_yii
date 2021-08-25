@@ -1,7 +1,10 @@
 <?php
 
+use app\modules\tool\Module as ToolModule;
+
 $params = file_exists(__DIR__ . '/params.php') ? require __DIR__ . '/params.php' : require $base_path . '/common/config/params.php';
 $db     = file_exists(__DIR__ . '/db.php') ? require __DIR__ . '/db.php' : require $base_path . '/common/config/db.php';
+$router = require_once __DIR__ . '/router.php';
 
 $config = [
 	'id'           => 'application',
@@ -9,53 +12,34 @@ $config = [
 	'bootstrap'    => ['log'],
 	'defaultRoute' => 'index',
 	'aliases'      => [
-		'@bower' => '@base_path/vendor/bower-asset',
-		'@npm'   => '@base_path/vendor/npm-asset',
+		'@bower' => $base_path . '/vendor/bower-asset',
+		'@npm'   => $base_path . '/vendor/npm-asset',
 	],
 	'components' => [
 		'request' => [
 			// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-			'cookieValidationKey' => 'DaYpmXo_ROUoUo_txYAcsMYd8YeSSHPD',
+			'cookieValidationKey'    => 'DaYpmXo_ROUoUo_txYAcsMYd8YeSSHPD',
+			'enableCookieValidation' => false, // 禁用 cookie 校验
+			'enableCsrfValidation'   => false, // 禁用 csrf 校验
 		],
-		'cache' => [
-			'class' => 'yii\caching\FileCache',
+		'response' => [
+			'format' => 'json',
 		],
 		'user' => [
-			'identityClass'   => 'app\models\User',
-			'enableAutoLogin' => true,
+			// 'identityClass'   => 'app\models\User',
+			'enableSession'   => false, // user组件禁用 session
+			'enableAutoLogin' => false, // user组件禁用自动登录
 		],
-		'errorHandler' => [
-			// 'errorAction' => 'site/error',
+		'db'         => $db,
+		'urlManager' => [
+			'rules' => $router,
 		],
-		'mailer' => [
-			'class' => 'yii\swiftmailer\Mailer',
-			// send all mails to a file by default. You have to set
-			// 'useFileTransport' to false and configure a transport
-			// for the mailer to send real emails.
-			'useFileTransport' => true,
-		],
-		'log' => [
-			'traceLevel' => YII_DEBUG ? 3 : 0,
-			'targets'    => [
-				[
-					'class'  => 'yii\log\FileTarget',
-					'levels' => ['error', 'warning'],
-				],
-			],
-		],
-		'db' => $db,
-		// 'urlManager' => [
-		// 	'enablePrettyUrl' => true,
-		// 	'showScriptName' => false,
-		// 	'rules' => [
-		// 	],
-		// ],
 	],
 	'params'  => $params,
 	'modules' => [
 		// 载入自定义模块 tool
 		'tool' => [
-			'class'        => 'app\modules\tool\Module',
+			'class'        => ToolModule::class,
 			'defaultRoute' => 'index',
 		],
 	],

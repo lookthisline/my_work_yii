@@ -2,12 +2,12 @@
 
 namespace app\modules\tool\controllers;
 
-use yii\web\Controller;
+use common\controllers\BaseController;
 
 /**
  * Default controller for the `tool` module
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
 	/**
 	 * Renders the index view for the module
